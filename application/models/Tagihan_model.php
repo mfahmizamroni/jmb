@@ -42,11 +42,72 @@ class tagihan_model extends CI_Model {
 
 	public function get_tagihan_all_joined() {
 		
-		//$this->db->select(array('a.id_tagihan','a.no_tagihan','sum(b.total) as total'));
+		$this->db->select(array('*','a.kembali as kembalis'));
 		$this->db->from('tagihan as a');
 		$this->db->join('faktur as b', 'a.no_tagihan = b.tagihan', 'left');
 		$this->db->group_by('a.no_tagihan');
 		return $this->db->get();
+	}
+
+	public function get_tagihan_all_joined_nolunas() {
+		
+		$this->db->select(array('*','a.kembali as kembalis'));
+		$this->db->from('tagihan as a');
+		$this->db->join('faktur as b', 'a.no_tagihan = b.tagihan', 'left');
+		$this->db->where('status = "surat" OR status = "0"');
+		$this->db->group_by('a.no_tagihan');
+		return $this->db->get();
+	}
+
+	public function get_tagihan_all_joined_lunas() {
+		
+		$this->db->select(array('*','a.kembali as kembalis'));
+		$this->db->from('tagihan as a');
+		$this->db->join('faktur as b', 'a.no_tagihan = b.tagihan', 'left');
+		$this->db->where('status != "surat" AND status != "0"');
+		$this->db->group_by('a.no_tagihan');
+		return $this->db->get();
+	}
+
+	public function get_last_tagihan() {
+		
+		$this->db->from('tagihan');
+		
+		//$temp1 = substr($temp, 0, 2);
+		$a = $this->db->select('no_tagihan')->order_by('no_tagihan',"desc");
+		$b = $this->db->get()->first_row();
+		if ($b) {
+
+			$c = substr($b->no_tagihan, 1, 1);
+			if ($c == 'z' || $c == 'Z') {
+				$res1 = substr($b->no_tagihan, 0, 1);
+				$res1 = $res1++;
+				$res2 = 'A';
+				$res3 = '01';
+			} elseif(substr($b->no_tagihan, 2, 2) == 100) {
+				$res1 = substr($b->no_tagihan, 0, 1);
+				$res2 = substr($b->no_tagihan, 1, 1);
+				$res2 = $res2++;
+				$res3 = '01';
+			} else {
+				$res1 = substr($b->no_tagihan, 0, 1);
+				$res2 = substr($b->no_tagihan, 1, 1);
+				$int = substr($b->no_tagihan, 2, 2);
+				$last_nik = $int+1;
+				$res3 = sprintf('%02d', $last_nik);
+			}
+
+		} else {
+			$res1 = 'A';
+			$res2 = 'A';
+			$res3 = '01';
+		}
+
+
+		$res = $res1.$res2.$res3;
+
+		return $res;
+		
 	}
 
 	/**
@@ -58,12 +119,12 @@ class tagihan_model extends CI_Model {
 	 * @param mixed $password
 	 * @return bool true on success, false on failure
 	 */
-	public function create_tagihan($no_tagihan, $klien, $tipe_pembayaran, $total_tagihan) {
+	public function create_tagihan($no_tagihan, $klien, $tanggal_tagihan, $total_tagihan) {
 		
 		$data = array(
 			'no_tagihan'   => $no_tagihan,
 			'klien'   => $klien,
-			'tipe_pembayaran'   => $tipe_pembayaran,
+			'tanggal_tagihan'   => $tanggal_tagihan,
 			'total_tagihan'   => $total_tagihan,
 			'created_at' => date('Y-m-j H:i:s'),
 		);
@@ -72,28 +133,34 @@ class tagihan_model extends CI_Model {
 		
 	}
 	
-	public function update_dm($id, $no_dm, $truk, $sopir, $total_ongkos, $total_qty) {
+	public function update_tagihan($id, $no_tagihan, $klien, $tanggal_tagihan, $total_tagihan, $status) {
 		
+		if ($status == 'surat') {
+			$this->db->where('id_tagihan', $id);
+			$this->db->set('kembali', 'kembali+1', FALSE);
+			$this->db->update('tagihan');
+		}
+
 		$data = array(
-			'no_dm'   => $no_dm,
-			'truk'   => $truk,
-			'sopir'   => $sopir,
-			'total_ongkos'   => $total_ongkos,
-			'total_qty'   => $total_qty,
-			'created_at' => date('Y-m-j H:i:s'),
+			'no_tagihan'   => $no_tagihan,
+			'klien'   => $klien,
+			'tanggal_tagihan'   => $tanggal_tagihan,
+			'total_tagihan'   => $total_tagihan,
+			'status'   => $status,
+			'updated_at' => date('Y-m-j H:i:s'),
 		);
 		
-		$this->db->where('id_dm', $id);
+		$this->db->where('id_tagihan', $id);
 		$this->db->update('tagihan', $data);
 		return $id;
 		
 	}
 
-	public function delete_dm($id_dm) {
+	public function delete_tagihan($id) {
 		
-		$this->db->where('id_dm', $id_dm);
+		$this->db->where('id_tagihan', $id);
 		$this->db->delete('tagihan');
-		return $id_dm;
+		return $id;
 		
 	}
 

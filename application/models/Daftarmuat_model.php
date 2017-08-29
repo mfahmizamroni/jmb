@@ -40,6 +40,26 @@ class daftarmuat_model extends CI_Model {
 		
 	}
 
+	public function get_last_dm() {
+
+		$temp = date('dmY');
+		$this->db->from('daftar_muat');
+		$this->db->like('no_dm', $temp, 'after');
+		$this->db->select('no_dm')->order_by('id_dm',"desc");
+		$temps = $this->db->get()->first_row();
+		if ($temps != "") {
+			$temp = $temps->no_dm;
+			$number = substr($temp, 8);
+			$int = (int)$number;
+		} else {
+			$int = 0;
+		}
+		$last_nik = $int+1;
+		$res = sprintf('%03d', $last_nik);
+		return $res;
+		
+	}
+
 	public function get_daftarmuat_all_joined() {
 		
 		$this->db->select(array('a.id_dm','a.no_dm','sum(b.total) as total', 'a.truk as truk', 'a.sopir as sopir', 'Date(a.created_at) as tanggal'));

@@ -1,4 +1,4 @@
- <?php
+<?php ob_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Daftarmuat extends CI_Controller {
@@ -53,9 +53,11 @@ class Daftarmuat extends CI_Controller {
 	    $data = new stdClass();
 	    $title = 'Surat Jalan';
 	    $truk = $this->truk_model->get_truk_all();
-	    $faktur = $this->faktur_model->get_faktur_all_nosj();
+	    $faktur = $this->faktur_model->get_faktur_all_fordm();
+	    $count = 0;
+	    $lastdm = $this->daftarmuat_model->get_last_dm();
 
-	    $data = array('title' => $title,'truk' => $truk, 'faktur'=>$faktur);
+	    $data = array('title' => $title,'truk' => $truk, 'faktur'=>$faktur, 'lastdm' => $lastdm, 'count'=>$count);
 
 		// set validation rules
 	    $this->form_validation->set_rules('no_dm', 'Nomor Surat Jalan', 'required');
@@ -81,16 +83,19 @@ class Daftarmuat extends CI_Controller {
 			$truk = $this->input->post('truk');
 			$sopir = $this->input->post('sopir');
 
+			$id_faktur = array();
 			$kode_faktur = array();
 			$total_faktur = array();
 			$total_qty_faktur = array();
 
 			$i = 1;
 			while ($this->input->post('nosm'.$i)) {
+				$idf = $this->input->post('id'.$i);
 				$fkt = $this->input->post('nosm'.$i);
 				$ttl = $this->input->post('total'.$i);
 				$ttl_qty = $this->input->post('total_qty'.$i);
 
+				$id_faktur[$i] = $idf; 
 				$kode_faktur[$i] = $fkt; 
 				$total_faktur[$i] = $ttl;
 				$total_qty_faktur[$i] = $ttl_qty;
@@ -108,7 +113,7 @@ class Daftarmuat extends CI_Controller {
 				$status_kirim = 'BT';
 
 				for ($i=1; $i <= count($kode_faktur); $i++) { 
-					$this->faktur_model->update_dm($kode_faktur[$i], $no_dm, $lunas[$i], $status_kirim[$i], $potongan[$i]);
+					$this->faktur_model->update_dm($id_faktur[$i], $no_dm, $lunas, $status_kirim, $potongan);
 				}
 				$success = "creation success";
 				$title = 'Faktur';
@@ -138,10 +143,11 @@ class Daftarmuat extends CI_Controller {
 	    $status_kirim = $this->Statuskirim_model->get_sk_all();
 	    $daftarmuat = $this->daftarmuat_model->get_dm($id);
 	    $faktursj = $this->faktur_model->get_faktur_per_dm($daftarmuat->no_dm);
+	    $count = count($faktursj->result());
 	    $i = count($faktursj->result())+1;
 	    $title = 'Surat Jalan - '.$daftarmuat->no_dm;
 
-	    $data = array('title' => $title,'truk' => $truk, 'faktur'=>$faktur, 'daftarmuat'=>$daftarmuat, 'faktursj'=>$faktursj, 'i'=>$i, 'status_kirim' => $status_kirim);
+	    $data = array('title' => $title,'truk' => $truk, 'faktur'=>$faktur, 'daftarmuat'=>$daftarmuat, 'faktursj'=>$faktursj, 'i'=>$i, 'status_kirim' => $status_kirim, 'count' => $count);
 
 		// set validation rules
 	    $this->form_validation->set_rules('no_dm', 'Nomor Surat Jalan', 'required');
@@ -176,6 +182,7 @@ class Daftarmuat extends CI_Controller {
 
 			$i = 1;
 			while ($this->input->post('nosm'.$i)) {
+				$idf = $this->input->post('id'.$i);
 				$fkt = $this->input->post('nosm'.$i);
 				$lns = $this->input->post('lunas'.$i);
 				$sk = $this->input->post('status_kirim'.$i);
@@ -184,6 +191,7 @@ class Daftarmuat extends CI_Controller {
 				$ttl_qty = $this->input->post('total_qty'.$i);
 
 
+				$id_faktur[$i] = $idf; 
 				$kode_faktur[$i] = $fkt; 
 				$total_faktur[$i] = $ttl;
 				$total_qty_faktur[$i] = $ttl_qty;
@@ -198,9 +206,9 @@ class Daftarmuat extends CI_Controller {
 
 			if ($this->daftarmuat_model->update_dm($id, $no_dm, $truk, $sopir, $total_ongkos, $total_qty)) {
 
-				for ($i=1; $i <= count($kode_faktur); $i++) { 
-					
-					$this->faktur_model->update_dm($kode_faktur[$i], $no_dm, $lunas[$i], $status_kirim[$i], $potongan[$i]);
+				var_dump($id_faktur);
+				for ($i=1; $i <= count($id_faktur); $i++) { 
+					$this->faktur_model->update_dm($id_faktur[$i], $no_dm, $lunas[$i], $status_kirim[$i], $potongan[$i]);
 				}
 				$success = "creation success";
 				$title = 'Faktur';
@@ -242,10 +250,32 @@ class Daftarmuat extends CI_Controller {
 	public function delete($id)
 	{
 		//$id = $this->input->get('id');
+		$dm = $this->daftarmuat_model->get_dm($id);
+		$faktur_dm = $this->faktur_model->get_faktur_per_dm($dm->no_dm);
+		$j = 0;
+		$id_faktur = array();
+		foreach ($faktur_dm->result() as $fdm) {
+			$id_faktur[$j] = $fdm->id_faktur;
+			$j++;
+		}
+
+		$lunas = 0;
+		$potongan = 0;
+		$status_kirim = 0;
+		$no_dm = 0;
+
+		for ($i=0; $i <= count($id_faktur)+1; $i++) { 
+			$this->faktur_model->update_dm($id_faktur[$i], $no_dm, $lunas, $status_kirim, $potongan);
+		}
+
+		// $faktur_dm = $this->faktur_model->get_faktur_per_dms($dm->no_dm);
+
 		if ($this->daftarmuat_model->delete_dm($id)) {
 
 			$success = "delete success";
 			$data = array('success' => $success );
+
+
 				// user creation ok
 			$this->load->library('session');
 			if ($this->session->has_userdata('username')) {
@@ -258,3 +288,4 @@ class Daftarmuat extends CI_Controller {
 		}
 	}
 }
+?>

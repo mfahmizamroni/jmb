@@ -38,22 +38,22 @@
                           <div class="col-md-6">
                             <div class="">
                               <label for="nama1">No Tagihan</label>
-                              <input type="text" class="form-control" id="kode_faktur" name="no_tagihan" value="<?=set_value('no_dm')?>" placeholder="Masukkan No Surat Jalan">
+                              <input type="text" class="form-control" id="kode_faktur" name="no_tagihan" value="<?= $no_tagihan; ?>" readonly>
                               <br>
                             </div>
-                            <div class="">
+                            <!-- <div class="">
                               <label for="nama1">Tipe Pembayaran</label>
                               <select class="form-control" name="tipe_pembayaran">
                                 <option value="transfer">Transfer</option>
                                 <option value="giro">Giro</option>
                               </select>
                               <br>
-                            </div>
+                            </div> -->
                           </div>
                           <div class="col-md-6">
                             <div class="">
                               <label for="nama1">Nama Perusahaan</label>
-                              <input type="text" class="form-control" id="kode_faktur" name="klien" value="<?=set_value('sopir')?>" placeholder="Masukkan No Surat Jalan">
+                              <input type="text" class="form-control" id="kode_faktur" name="klien" value="<?=set_value('klien')?>" placeholder="Masukkan Nama Perusahaan">
                               <br>
                             </div>
                           </div>

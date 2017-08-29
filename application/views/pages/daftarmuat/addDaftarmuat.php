@@ -38,7 +38,7 @@
                           <div class="col-md-6">
                             <div class="">
                               <label for="nama1">No. Daftar Muat</label>
-                              <input type="text" class="form-control" id="kode_faktur" name="no_dm" value="<?=set_value('no_dm')?>" placeholder="Masukkan No Surat Jalan">
+                              <input type="text" class="form-control" id="kode_faktur" name="no_dm" value="<?= date('dmY').$lastdm; ?>" placeholder="Masukkan No Surat Jalan" readonly>
                               <br>
                             </div>
                           </div>

@@ -1,4 +1,4 @@
-<?php
+<?php ob_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * User class.
@@ -367,3 +367,4 @@ class User extends CI_Controller {
 		}
 	}
 }
+?>

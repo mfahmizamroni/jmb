@@ -38,20 +38,19 @@
                             <div class="col-md-6">
                               <div class="">
                                 <label for="nama1">No. Tagihan</label>
-                                <input type="text" class="form-control" id="kode_faktur" name="no_tagihan" value="<?= $tagihan->no_tagihan ?>" placeholder="Masukkan No Surat Jalan">
+                                <input type="text" class="form-control" id="kode_faktur" name="no_tagihan" value="<?= $tagihan->no_tagihan ?>" readonly>
                                 <br>
                               </div>
                               <div class="">
                                 <label for="nama1">Status Pembayaran</label>
-                                <select class="form-control" name="status">
-                                  <option disabled="disabled" selected="selected">Select Option</option>
+                                <select class="form-control" name="status" readonly>
                                   <optgroup label="Lunas">
-                                     <option value="transfer">Transfer</option>
-                                     <option value="giro">Giro</option>
-                                     <option value="tunai">Tunai</option>
+                                     <option value="transfer" <?php if ($tagihan->status == "transfer") { echo "selected"; } ?>>Transfer</option>
+                                     <option value="giro" <?php if ($tagihan->status == "giro") { echo "selected"; } ?>>Giro</option>
+                                     <option value="tunai" <?php if ($tagihan->status == "tunai") { echo "selected"; } ?>>Tunai</option>
                                   </optgroup>
                                   <optgroup label="Belum Lunas">
-                                     <option value="surat">Surat</option>
+                                     <option value="surat" <?php if ($tagihan->status == "surat") { echo "selected"; } ?>>Surat</option>
                                   </optgroup>
                                 </select>
                                 <br>
@@ -60,7 +59,7 @@
                             <div class="col-md-6">
                             <div class="">
                               <label for="nama1">Nama Perusahaan</label>
-                              <input type="text" class="form-control" id="kode_faktur" name="klien" value="<?= $tagihan->klien ?>" placeholder="Masukkan Nama Perusahaan">
+                              <input type="text" class="form-control" id="kode_faktur" name="klien" value="<?= $tagihan->klien ?>" placeholder="Masukkan Nama Perusahaan" readonly>
                               <br>
                             </div>
                             <div class="">
@@ -74,35 +73,35 @@
                         <table id="table" class="table table-bordered" style="border-width: 2px">
                           <thead>
                             <th>No. SM</th>
+                            <th>No. DM</th>
                             <th>Pengirim</th>
                             <th>Penerima</th>
                             <th>Harga</th>
-                            <th style="width: 100px" class="notPrintable">#</th>
                           </thead>
                           <?php $i = 1;
                           foreach ($fakturtagihan->result() as $fakturtagihans) {?>
                           <tr id="item<?= $i; ?>">
                             <td id="id<?= $i; ?>" style="display: none;"><?= $fakturtagihans->id_faktur ?></td>
                             <td id="nosm<?= $i; ?>"><?= $fakturtagihans->kode_faktur ?></td>
+                            <td id="nosm<?= $i; ?>"><?= $fakturtagihans->id_faktur_dm ?></td>
                             <td id="pengirim<?= $i; ?>"><?= $fakturtagihans->id_faktur_pengirim ?></td>
                             <td id="penerima<?= $i; ?>"><?= $fakturtagihans->id_faktur_penerima ?></td>
                             <td id="harga<?= $i; ?>"><?= $fakturtagihans->total ?></td>
-                            <td>
+                            <!-- <td>
                               <input type="hidden" name="id<?= $i; ?>" id="id<?= $i; ?>" value="<?= $fakturtagihans->id_faktur ?>">
                               <input type="hidden" name="nosm<?= $i; ?>" id="nosm<?= $i; ?>" value="<?= $fakturtagihans->kode_faktur ?>">
                               <input type="hidden" name="total<?= $i; ?>" id="total<?= $i; ?>" value="<?= $fakturtagihans->total ?>">
-                              <!-- <div class="checkbox" style="margin: 0px; display: inline-block;"><label><input type="checkbox" name="lunas<?= $i; ?>" value="1" <?php if ($fakturtagihans->lunas == 1) {echo "checked";} ?>>Lunas</label></div>&nbsp; -->
+                              <div class="checkbox" style="margin: 0px; display: inline-block;"><label><input type="checkbox" name="lunas<?= $i; ?>" value="1" <?php if ($fakturtagihans->lunas == 1) {echo "checked";} ?>>Lunas</label></div>&nbsp;
                               <a href="#" data-href="<?php echo base_url().'tagihan/deletefakturtagihan/'.$fakturtagihans->id_faktur?>" class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                            </td>
+                            </td> -->
                           </tr>
                           <?php $i++; } ?>
                         </table>                    
-                        <a href="" class="btn btn-default" data-toggle="modal" data-target="#add-modal"><i class="fa fa-plus"> Tambah Faktur</i></a>
+                        <!-- <a href="" class="btn btn-default" data-toggle="modal" data-target="#add-modal"><i class="fa fa-plus"> Tambah Faktur</i></a> -->
                         
                       </div><!-- /.box-body -->
                       <br>
                       <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
                         <div class="pull-right">
                           <p><strong>Total</strong></p>
                           <input type="text" class="form-control" value="<?= $tagihan->total_tagihan ?>">
