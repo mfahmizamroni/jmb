@@ -33,13 +33,6 @@ class tagihan_model extends CI_Model {
 		return $this->db->get()->row();
 		
 	}
-	public function get_no_tagihan($id) {
-		
-		$this->db->from('tagihan');
-		$this->db->where('no_tagihan', $id);
-		return $this->db->get()->row();
-		
-	}
 
 	public function get_tagihan_all() {
 		

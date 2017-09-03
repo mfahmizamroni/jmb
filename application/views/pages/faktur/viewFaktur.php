@@ -20,7 +20,7 @@
               <div class="box box-primary">
                 <div class="box-header">
                   <div class="pull-right">
-                    <a href="<?= base_url().'faktur/add' ?>"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Surat Muat</button></a>
+                    <a href="<?= base_url().'faktur/add' ?>"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Faktur</button></a>
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">

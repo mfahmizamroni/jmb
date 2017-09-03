@@ -1,7 +1,7 @@
 <script>
 var i = 1;
 function tambahkanBaru(s) {
-    //if (i < s) { i = s;}
+    if (i < s) { i = s;}
     buatRow();
     noPadding();
     
@@ -59,7 +59,7 @@ function buatRow() {
     $("#item"+i).append("<td id=totaltd"+i+"></td>");
     $("#item"+i).append("<td id=tujuantd"+i+"></td>");
     $("#item"+i).append("<td id=editid"+i+"></td>");
-    $("#editid"+i).append("<input type=hidden name=no id=no value=1><input type=hidden name=id"+i+" id=id"+i+"><input type=hidden name=nosm"+i+" id=nosm"+i+"><input type=hidden name=pengirim"+i+" id=pengirim"+i+"><input type=hidden name=penerima"+i+" id=penerima"+i+"><input type=hidden name=total"+i+" id=total"+i+"><input type=hidden name=tujuan"+i+" id=tujuan"+i+"><a href='' class='btn btn-default' data-toggle=modal data-target=#edit-modal onclick=appEdit("+i+")><i class='fa fa-pencil'></i></a><a href='' class='btn btn-default' data-toggle=modal data-target=#hapus-modal onclick=appDelete("+i+")><i class='fa fa-trash-o'></i></a>");
+    $("#editid"+i).append("<input type=hidden name=id"+i+" id=id"+i+"><input type=hidden name=nosm"+i+" id=nosm"+i+"><input type=hidden name=pengirim"+i+" id=pengirim"+i+"><input type=hidden name=penerima"+i+" id=penerima"+i+"><input type=hidden name=total"+i+" id=total"+i+"><input type=hidden name=tujuan"+i+" id=tujuan"+i+"><a href='' class='btn btn-default' data-toggle=modal data-target=#edit-modal onclick=appEdit("+i+")><i class='fa fa-pencil'></i></a><a href='' class='btn btn-default' data-toggle=modal data-target=#hapus-modal onclick=appDelete("+i+")><i class='fa fa-trash-o'></i></a>");
 
 }
 

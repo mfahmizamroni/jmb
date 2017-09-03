@@ -3,11 +3,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Daftar Muat
+            Surat Jalan
           </h1>
           <ol class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
-            <li>Daftar Muat</li>
+            <li>Surat Jalan</li>
           </ol>
         </section>
 
@@ -19,7 +19,7 @@
               <div class="box box-primary">
                 <div class="box-header">
                   <div class="pull-right">
-                    <a href="<?= base_url().'daftarmuat/add' ?>"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Daftar Muat</button></a>
+                    <a href="<?= base_url().'daftarmuat/add' ?>"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Surat Jalan</button></a>
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
@@ -50,7 +50,6 @@
                           <td><?= $sjs->tanggal; ?></td>
                           <td>
                             <a href="<?php echo base_url().'daftarmuat/edit/'.$sjs->id_dm;?>" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
-                            <a href="<?php echo base_url().'prints?id='.$sjs->id_dm;?>" class="btn btn-success btn-xs"><i class="fa fa-money"></i></a>
                             <a href="#" data-href="<?php echo base_url().'daftarmuat/delete/'.$sjs->id_dm;?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> 
                           </td>
                         </tr>

@@ -98,11 +98,6 @@
                           <?php $i++; } ?>
                         </table>                    
                         <a href="" class="btn btn-default" data-toggle="modal" data-target="#add-modal"><i class="fa fa-plus"> Tambah Faktur</i></a>
-                        <br><br>
-                        <div class="pull-right">
-                          <a href="<?php echo base_url().'prints/maspion?id='.$tagihan->no_tagihan;?>" class="btn btn-info"><i class="fa fa-plus"> Print Maspion</i></a>
-                          <a href="<?php echo base_url().'prints/print_tagihan?id='.$tagihan->no_tagihan;?>" class="btn btn-success"><i class="fa fa-plus"> Print</i></a>
-                        </div>
                         
                       </div><!-- /.box-body -->
                       <br>

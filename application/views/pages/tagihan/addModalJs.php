@@ -1,7 +1,7 @@
 <script>
 var i = 1;
 function tambahkanBaru(s) {
-    //if (i < s) { i = s; }
+    if (i < s) { i = s; }
     buatRow();
     noPadding();
 
