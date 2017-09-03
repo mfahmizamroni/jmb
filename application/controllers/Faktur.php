@@ -1,4 +1,4 @@
-<?php
+<?php ob_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Faktur extends CI_Controller {
@@ -59,7 +59,7 @@ class Faktur extends CI_Controller {
 	    $data = array('title' => $title, 'klien' => $klien, 'truk' => $truk);
 
 		// set validation rules
-	    $this->form_validation->set_rules('kode_faktur', 'Nomor Faktur', 'required');
+	    $this->form_validation->set_rules('kode_faktur', 'Nomor Faktur', 'required|is_unique[faktur.kode_faktur]');
 	    $this->form_validation->set_rules('pengirim', 'pengirim', 'required');
 	    $this->form_validation->set_rules('penerima', 'penerima', 'required');
 	    $this->form_validation->set_rules('tujuan', 'tujuan', 'required');
@@ -114,8 +114,9 @@ class Faktur extends CI_Controller {
 
 			$total = array_sum($jumlahUang);
 			$total_qty = array_sum($jumlahBarang);
+			$kembali = 0;
 
-			if ($this->faktur_model->create_faktur($kode_faktur,  $no_sj, $pengirim, $penerima, $tujuan, $total, $total_qty)) {
+			if ($this->faktur_model->create_faktur($kode_faktur,  $no_sj, $pengirim, $penerima, $tujuan, $total, $total_qty, $kembali)) {
 
 				for ($i=1; $i <= count($jumlahBarang); $i++) { 
 					$this->item_model->create_item($kode_faktur, $jumlahBarang[$i], $jenis[$i], $harga[$i], $jumlahUang[$i]);
@@ -309,3 +310,4 @@ class Faktur extends CI_Controller {
 		}
 	}
 }
+?>

@@ -33,6 +33,13 @@ class Faktur_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	public function get_faktur_kode($kode) {
+		
+		$this->db->from('faktur');
+		$this->db->where('kode_faktur', $kode);
+		return $this->db->get()->row();
+	}
+
 	public function get_faktur_all() {
 		
 		return $this->db->get('faktur');
@@ -43,6 +50,29 @@ class Faktur_model extends CI_Model {
 
 		$this->db->from('faktur');
 		$this->db->where('id_faktur_dm', '0');
+		return $this->db->get()
+		;
+		
+	}
+
+	public function get_faktur_all_sj_nolunas() {
+
+		$this->db->from('faktur');
+		$this->db->where('id_faktur_dm !=', '0');
+		$this->db->where('lunas', '0');
+		$this->db->where('tagihan', '0');
+		$this->db->where('kode_sk_faktur', 'LN');
+		return $this->db->get()
+		;
+		
+	}
+
+	public function get_faktur_all_fordm() {
+
+		$this->db->from('faktur');
+		$this->db->where('kode_sk_faktur !=', 'BT');
+		$this->db->where('id_faktur_dm', '0');
+		// $this->db->where('kode_sk_faktur !=', 'LN');
 		return $this->db->get()
 		;
 		
@@ -77,6 +107,14 @@ class Faktur_model extends CI_Model {
 		
 	}
 
+	public function get_faktur_per_tagihan($tagihan) {
+		
+		$this->db->from('faktur as a');
+		$this->db->where('tagihan', $tagihan);
+		return $this->db->get();
+		
+	}
+
 	public function get_faktur_all_joined() {
 		
 		$this->db->select(array('a.id_faktur','a.kode_faktur','a.creared_at', 'a.tujuan','a.','a.total','b.nopol'));
@@ -106,7 +144,7 @@ class Faktur_model extends CI_Model {
 	 * @param mixed $password
 	 * @return bool true on success, false on failure
 	 */
-	public function create_faktur($kode_faktur,  $no_sj, $pengirim, $penerima, $tujuan, $total, $total_qty) {
+	public function create_faktur($kode_faktur,  $no_sj, $pengirim, $penerima, $tujuan, $total, $total_qty, $kembali) {
 		
 		$data = array(
 			'kode_faktur'   		=> $kode_faktur,
@@ -116,6 +154,7 @@ class Faktur_model extends CI_Model {
 			'tujuan' 				=> $tujuan,
 			'total'   => $total,
 			'total_qty'   => $total_qty,
+			'kembali' => $kembali,
 			'created_at' 			=> date('Y-m-j H:i:s'),
 		);
 		
@@ -155,19 +194,51 @@ class Faktur_model extends CI_Model {
 		
 	}
 
-	public function update_dm($kode_faktur, $no_dm, $lunas, $status_kirim, $potongan ) {
+	public function update_dm($id_faktur, $no_dm, $lunas, $status_kirim, $potongan ) {
+		$faktur = $this->get_faktur($id_faktur);
+		if ($status_kirim == 'BT' || $status_kirim == 'LN' || $status_kirim == '0') {
+			$data = array(
+				'id_faktur_dm'   => $no_dm,
+				'lunas'   => $lunas,
+				'kode_sk_faktur'   => $status_kirim,
+				'potongan'   => $potongan,
+				'created_at' => date('Y-m-j H:i:s'),
+			);
+			
+			$this->db->where('id_faktur', $id_faktur);
+			$this->db->update('faktur', $data);
+		} elseif ($status_kirim != 'LN') {
+			var_dump('asd');
+			$data = array(
+				'id_faktur_dm'   => $no_dm,
+				'lunas'   => $lunas,
+				'kode_sk_faktur'   => $status_kirim,
+				'potongan'   => $potongan,
+				'updated_at' => date('Y-m-j H:i:s'),
+			);
+			
+			$this->db->where('id_faktur', $id_faktur);
+			$this->db->update('faktur', $data);
+
+			$this->create_faktur($faktur->kode_faktur,  $faktur->no_sj, $faktur->id_faktur_pengirim, $faktur->id_faktur_penerima, $faktur->tujuan, $faktur->total, $faktur->total_qty, $faktur->kembali+1);
+		}
+
+		
+		return $id_faktur;
+		
+	}
+
+	public function update_tagihan($id, $tagihan, $lunas) {
 		
 		$data = array(
-			'id_faktur_dm'   => $no_dm,
+			'tagihan'   => $tagihan,
 			'lunas'   => $lunas,
-			'kode_sk_faktur'   => $status_kirim,
-			'potongan'   => $potongan,
-			'created_at' => date('Y-m-j H:i:s'),
+			'updated_at' => date('Y-m-j H:i:s'),
 		);
 		
-		$this->db->where('kode_faktur', $kode_faktur);
+		$this->db->where('id_faktur', $id);
 		$this->db->update('faktur', $data);
-		return $kode_faktur;
+		return $id;
 		
 	}
 
@@ -183,6 +254,19 @@ class Faktur_model extends CI_Model {
 		
 		$data = array(
 			'id_faktur_dm'   => 0,
+			'created_at' => date('Y-m-j H:i:s'),
+		);
+		
+		$this->db->where('id_faktur', $id_faktur);
+		$this->db->update('faktur', $data);
+		return $id_faktur;
+		
+	}
+
+	public function delete_fakturtagihan($id_faktur) {
+		
+		$data = array(
+			'tagihan'   => 0,
 			'created_at' => date('Y-m-j H:i:s'),
 		);
 		

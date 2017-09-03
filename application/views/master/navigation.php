@@ -84,7 +84,7 @@
                 <span>Tagihan</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?php echo base_url().'tagihan' ?>"><i class="fa fa-circle-o"></i> Daftar Buku Besar</a></li>
+                <li><a href="<?php echo base_url().'bukubesar' ?>"><i class="fa fa-circle-o"></i> Daftar Buku Besar</a></li>
                 <li><a href="<?php echo base_url().'tagihan' ?>"><i class="fa fa-circle-o"></i> Daftar Tagihan</a></li>
               </ul>
             </li>

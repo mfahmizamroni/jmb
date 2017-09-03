@@ -1,8 +1,12 @@
 <script>
 var i = 1;
 function tambahkanBaru(s) {
-	buatRow();
-	noPadding();
+    if (i < s) { i = s; }
+    buatRow();
+    noPadding();
+
+    document.getElementById("idtd"+i).innerHTML = document.getElementById("idModal"+s).innerHTML ;
+    document.getElementById("id"+i).value = document.getElementById("idModal"+s).innerHTML ;
 
     document.getElementById("nosmtd"+i).innerHTML = document.getElementById("nosmModal"+s).innerHTML ;
     document.getElementById("nosm"+i).value = document.getElementById("nosmModal"+s).innerHTML ;
@@ -20,8 +24,11 @@ function tambahkanBaru(s) {
 }
 
 function edit(s) {
-	noPadding();
-	// console.log(document.getElementById("nosmEdit").value);
+    noPadding();
+    // console.log(document.getElementById("nosmEdit").value);
+
+    document.getElementById("idtd"+s).innerHTML = document.getElementById("idEdit").value ;
+    document.getElementById("id"+s).value = document.getElementById("idEdit").value ;
 
     document.getElementById("nosmtd"+s).innerHTML = document.getElementById("nosmEdit").value ;
     document.getElementById("nosm"+s).value = document.getElementById("nosmEdit").value ;
@@ -37,38 +44,40 @@ function edit(s) {
 }
 
 function buatRow() {
-	noPadding();
-	$("#table").append("<tr id=item"+i+"></tr>");
-	$("#item"+i).append("<td id=nosmtd"+i+"></td>");
-	$("#item"+i).append("<td id=pengirimtd"+i+"></td>");
-	$("#item"+i).append("<td id=penerimatd"+i+"></td>");
+    noPadding();
+    $("#table").append("<tr id=item"+i+"></tr>");
+    $("#item"+i).append("<td id=idtd"+i+" style=display:none;></td>");
+    $("#item"+i).append("<td id=nosmtd"+i+"></td>");
+    $("#item"+i).append("<td id=pengirimtd"+i+"></td>");
+    $("#item"+i).append("<td id=penerimatd"+i+"></td>");
     $("#item"+i).append("<td id=totaltd"+i+"></td>");
-	$("#item"+i).append("<td id=editid"+i+"></td>");
-	$("#editid"+i).append("<input type=hidden name=nosm"+i+" id=nosm"+i+"><input type=hidden name=pengirim"+i+" id=pengirim"+i+"><input type=hidden name=penerima"+i+" id=penerima"+i+"><input type=hidden name=total"+i+" id=total"+i+"><a href='' class='btn btn-default' data-toggle=modal data-target=#edit-modal onclick=appEdit("+i+")><i class='fa fa-pencil'></i></a><a href='' class='btn btn-default' data-toggle=modal data-target=#hapus-modal onclick=appDelete("+i+")><i class='fa fa-trash-o'></i></a>");
+    $("#item"+i).append("<td id=editid"+i+"></td>");
+    $("#editid"+i).append("<input type=hidden name=id"+i+" id=id"+i+"><input type=hidden name=nosm"+i+" id=nosm"+i+"><input type=hidden name=pengirim"+i+" id=pengirim"+i+"><input type=hidden name=penerima"+i+" id=penerima"+i+"><input type=hidden name=total"+i+" id=total"+i+"><a href='' class='btn btn-default' data-toggle=modal data-target=#edit-modal onclick=appEdit("+i+")><i class='fa fa-pencil'></i></a><a href='' class='btn btn-default' data-toggle=modal data-target=#hapus-modal onclick=appDelete("+i+")><i class='fa fa-trash-o'></i></a>");
 }
 
 function appEdit(s) {
-	console.log(s);
-	document.getElementById("nosmEdit").value = document.getElementById("nosmtd"+s).innerHTML;
-	document.getElementById("pengirimEdit").value = document.getElementById("pengirimtd"+s).innerHTML;
-	document.getElementById("penerimaEdit").value = document.getElementById("penerimatd"+s).innerHTML;
+    console.log(s);
+    document.getElementById("idEdit").value = document.getElementById("idtd"+s).innerHTML;
+    document.getElementById("nosmEdit").value = document.getElementById("nosmtd"+s).innerHTML;
+    document.getElementById("pengirimEdit").value = document.getElementById("pengirimtd"+s).innerHTML;
+    document.getElementById("penerimaEdit").value = document.getElementById("penerimatd"+s).innerHTML;
     document.getElementById("totalEdit").value = document.getElementById("totaltd"+s).innerHTML;
-	document.getElementById('editButton').onclick = function() { edit(s); };
+    document.getElementById('editButton').onclick = function() { edit(s); };
 }
 
 function deleteItem(s) {
-	document.getElementById("item"+s).remove();
+    document.getElementById("item"+s).remove();
 }
 
 function appDelete(s) {
-	document.getElementById('deleteButton').onclick = function() { deleteItem(s); };
+    document.getElementById('deleteButton').onclick = function() { deleteItem(s); };
 }
 
 function noPadding() {
-	// console.log('asd');
-	setTimeout(function() {
-		$("#no-padding").css({"padding-right":"0px"})
-	}, 500);
+    // console.log('asd');
+    setTimeout(function() {
+        $("#no-padding").css({"padding-right":"0px"})
+    }, 500);
 }
 </script>
 <!-- jQuery 2.1.4 -->
@@ -105,6 +114,24 @@ function noPadding() {
         $("[data-mask]").inputmask();
       })
     </script>
+    <script>
+    $(function () {
+        $("#example1").DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            {
+                extend: 'print', 
+                exportOptions:{
+                    columns: ':not(.notPrintable)'
+                }
+            }
+            ]
+        });
+        var z = document.getElementsByClassName("buttons-print");
+        z[0].classList.add('btn');
+        z[0].classList.add('btn-primary');
+    });
+</script>
     <script>
       $('#confirm-delete').on('show.bs.modal', function(e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));

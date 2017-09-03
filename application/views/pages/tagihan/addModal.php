@@ -10,7 +10,8 @@
       <table id="example1" class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>No.</th>
+            <!-- <th>No.</th> -->
+            <td style="display: none;">asd</td>
             <th>No. SM</th>
             <th>Pengirim</th>
             <th>Penerima</th>
@@ -19,12 +20,13 @@
           </tr>
         </thead>
         <tbody>
-          <?php $i = 0; 
+          <?php $i = $count; 
           foreach ($faktur->result() as $fakturs) {
             $i++;
             ?>
             <tr>
-              <td><?= $i; ?></td>
+              <!-- <td><?= $i; ?></td> -->
+              <td id="idModal<?= $i; ?>" style="display: none;"><?= $fakturs->id_faktur; ?></td>
               <td id="nosmModal<?= $i; ?>"><?= $fakturs->kode_faktur; ?></td>
               <td id="pengirimModal<?= $i; ?>"><?= $fakturs->id_faktur_pengirim; ?></td>
               <td id="penerimaModal<?= $i; ?>"><?= $fakturs->id_faktur_penerima; ?></td>

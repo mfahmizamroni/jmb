@@ -1,4 +1,4 @@
-<?php
+<?php ob_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
@@ -24,3 +24,4 @@ class Welcome extends CI_Controller {
 		header('location:'.base_url().'user/login');
 	}
 }
+?>

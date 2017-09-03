@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                               <div class="">
                                 <label for="nama1">No. Daftar Muat</label>
-                                <input type="text" class="form-control" id="kode_faktur" name="no_dm" value="<?= $daftarmuat->no_dm ?>" placeholder="Masukkan No Surat Jalan">
+                                <input type="text" class="form-control" id="kode_faktur" name="no_dm" value="<?= $daftarmuat->no_dm ?>" placeholder="Masukkan No Surat Jalan" readonly>
                                 <br>
                               </div>
                             </div>
@@ -61,8 +61,9 @@
                             </div>
                         </div>
                         <br>
-                        <table id="example1" class="table table-bordered table-responsive" style="border-width: 2px">
+                        <table id="table" class="table table-bordered table-responsive" style="border-width: 2px">
                           <thead>
+                            <th style="display: none;">id</th>
                             <th>No. DM</th>
                             <th>Pengirim</th>
                             <th>Penerima</th>
@@ -76,11 +77,13 @@
                           <?php $i = 1;
                           foreach ($faktursj->result() as $faktursjs) {?>
                           <tr id="item<?= $i; ?>">
+                            <td id="id<?= $i; ?>" style="display: none;"><?= $faktursjs->id_faktur ?></td>
                             <td id="nosm<?= $i; ?>"><?= $faktursjs->kode_faktur ?></td>
                             <td id="pengirim<?= $i; ?>"><?= $faktursjs->id_faktur_pengirim ?></td>
                             <td id="penerima<?= $i; ?>"><?= $faktursjs->id_faktur_penerima ?></td>
                             <td id="harga<?= $i; ?>"><?= $faktursjs->total ?></td>
                             <td>
+                              <input type="hidden" name="id<?= $i; ?>" id="id<?= $i; ?>" value="<?= $faktursjs->id_faktur ?>">
                               <input type="hidden" name="nosm<?= $i; ?>" id="nosm<?= $i; ?>" value="<?= $faktursjs->kode_faktur ?>">
                               <div class="checkbox" style="margin: 0px; display: inline-block;"><label><input type="checkbox" name="lunas<?= $i; ?>" value="1" <?php if ($faktursjs->lunas == 1) {echo "checked";} ?>>Lunas</label></div>&nbsp;
                             </td>
