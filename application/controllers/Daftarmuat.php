@@ -63,7 +63,7 @@ class Daftarmuat extends CI_Controller {
 	    $this->form_validation->set_rules('no_dm', 'Nomor Surat Jalan', 'required');
 	    $this->form_validation->set_rules('truk', 'Nopol Truk', 'required');
 	    $this->form_validation->set_rules('sopir', 'Nama Sopir', 'required');
-	    $this->form_validation->set_rules('nosm1', 'Nomor Surat Masuk', 'required');
+	    $this->form_validation->set_rules('no', 'Minimal 1 Surat Masuk', 'required');
 
 	    if ($this->form_validation->run() === false) {
 			$this->load->library('session');
