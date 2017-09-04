@@ -50,6 +50,7 @@
                           <td><?= $sjs->tanggal; ?></td>
                           <td>
                             <a href="<?php echo base_url().'daftarmuat/edit/'.$sjs->id_dm;?>" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
+                            <a href="<?php echo base_url().'prints?id='.$sjs->id_dm;?>" class="btn btn-success btn-xs"><i class="fa fa-money"></i></a> 
                             <a href="#" data-href="<?php echo base_url().'daftarmuat/delete/'.$sjs->id_dm;?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> 
                           </td>
                         </tr>
