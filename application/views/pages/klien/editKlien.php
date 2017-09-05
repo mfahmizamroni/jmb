@@ -36,16 +36,17 @@
                 <?= form_open() ?>
                   <div class="box-body">
                     <div class="form-group">
+                    <input type="text" class="hidden" name="id_klien" value="<?= $klien->id_klien; ?>">
                       <label for="buku1">Nama Klien</label>
-                      <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama Klien">
+                      <input type="text" class="form-control" name="nama" value="<?= $klien->nama_klien; ?>">
                     </div>
                     <div class="form-group">
                       <label for="tahun">Alamat</label>
-                      <input type="text" class="form-control" name="alamat" placeholder="Masukkan Alamat Klien">
+                      <input type="text" class="form-control" name="alamat" value="<?= $klien->alamat; ?>">
                     </div>
                     <div class="form-group">
                       <label for="tahun">No. Telp</label>
-                      <input type="text" class="form-control" name="no_telp" placeholder="Masukkan Nomor Telepon">
+                      <input type="text" class="form-control" name="no_telp" value="<?= $klien->no_telp; ?>">
                     </div>
                   </div><!-- /.box-body -->
 

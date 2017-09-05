@@ -26,10 +26,10 @@ class Klien_model extends CI_Model {
 	 * @param mixed $id
 	 * @return object the user object
 	 */
-	public function get_klien($id) {
+	public function get_klien($id_klien) {
 		
 		$this->db->from('klien');
-		$this->db->where('id', $id);
+		$this->db->where('id_klien', $id_klien);
 		return $this->db->get()->row();
 		
 	}
@@ -49,11 +49,12 @@ class Klien_model extends CI_Model {
 	 * @param mixed $password
 	 * @return bool true on success, false on failure
 	 */
-	public function create_klien($nama_klien, $alamat) {
+	public function create_klien($nama_klien, $alamat, $no_telp) {
 		
 		$data = array(
 			'nama_klien'   => $nama_klien,
 			'alamat'      => $alamat,
+			'no_telp'		=> $no_telp,
 			'created_at' => date('Y-m-j H:i:s'),
 		);
 		
@@ -61,17 +62,19 @@ class Klien_model extends CI_Model {
 		
 	}
 	
-	public function update_klien($id_klien, $nama_klien, $alamat) {
+	public function update_klien($id_klien, $nama_klien, $alamat, $no_telp) {
 		
 		$data = array(
+			'id_klien' => $id_klien,
 			'nama_klien'   => $nama_klien,
 			'alamat'      => $alamat,
+			'no_telp'		=> $no_telp,
 			'updated_at' => date('Y-m-j H:i:s'),
 		);
 		
-		$this->db->where('id_klien', $id);
+		$this->db->where('id_klien', $id_klien);
 		$this->db->update('klien', $data);
-		return $id;
+		return $id_klien;
 		
 	}
 
@@ -79,7 +82,7 @@ class Klien_model extends CI_Model {
 		
 		$this->db->where('id_klien', $id_klien);
 		$this->db->delete('klien');
-		return $id;
+		return $id_klien;
 		
 	}
 }

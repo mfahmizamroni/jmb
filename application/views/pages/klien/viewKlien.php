@@ -26,9 +26,11 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>No.</th>
+                        <th style="width: 10px">No.</th>
                         <th>Nama Klien</th>
                         <th>Alamat</th>
+                        <th>No. Telp</th>
+                        <th class="">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -40,6 +42,11 @@
                           <td><?= $i; ?></td>
                           <td><?= $kliens->nama_klien; ?></td>
                           <td><?= $kliens->alamat; ?></td>
+                          <td><?= $kliens->no_telp; ?></td>
+                          <td>
+                            <a href="<?php echo base_url().'klien/edit/'.$kliens->id_klien; ?>" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
+                            <a href="#" data-href="<?php echo base_url().'klien/delete/'.$kliens->id_klien;?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> 
+                          </td>
                         </tr>
                         <?php
                       } ?>

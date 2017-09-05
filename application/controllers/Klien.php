@@ -33,6 +33,7 @@ class Klien extends CI_Controller {
 			$this->load->view('master/header', $data);
 			$this->load->view('master/navigation');
 			$this->load->view('pages/klien/viewKlien', $data);
+			$this->load->view('master/delete');
 			$this->load->view('master/jsViewTables');
 			$this->load->view('master/footer');
 		} else {
@@ -70,8 +71,9 @@ class Klien extends CI_Controller {
 		} else {
 			$nama = $this->input->post('nama');
 			$alamat = $this->input->post('alamat');
+			$no_telp = $this->input->post('no_telp');
 
-			if ($this->klien_model->create_klien($nama, $alamat)) {
+			if ($this->klien_model->create_klien($nama, $alamat, $no_telp)) {
 
 				$success = "creation success";
 				$data = array('success' => $success );
@@ -110,13 +112,94 @@ class Klien extends CI_Controller {
 		}
 	}
 
-	public function edit()
+	public function edit($id_klien)
 	{
-		
+		// create the data object
+	    $data = new stdClass();
+
+	    $title = 'Klien';
+	    $klien = $this->klien_model->get_klien($id_klien);
+
+	    $data = array('title' => $title, 'klien' => $klien );
+
+	    $this->load->helper('form');
+	    $this->load->library('form_validation');
+
+	    // set validation rules
+	    $this->form_validation->set_rules('nama', 'Nama Klien', 'required');
+	    $this->form_validation->set_rules('alamat', 'Alamat Klien', 'required|min_length[4]');
+	    $this->form_validation->set_rules('no_telp', 'Alamat Klien', 'required|min_length[5]');
+
+	    if ($this->form_validation->run() === false) {
+			$this->load->library('session');
+			if ($this->session->has_userdata('username')) {
+				$this->load->helper('url');
+				$this->load->view('master/header');
+				$this->load->view('master/navigation');
+				$this->load->view('pages/klien/editKlien', $data);
+				$this->load->view('master/jsAdd');
+				$this->load->view('master/footer');
+			} else {
+				$this->load->helper('url');
+				header('location:'.base_url().'user/login');
+			}
+		} else {
+			$nama_klien = $this->input->post('nama');
+			$alamat = $this->input->post('alamat');
+			$no_telp = $this->input->post('no_telp');
+
+			if ($this->klien_model->update_klien($id_klien, $nama_klien, $alamat, $no_telp)) {
+
+				$success = "creation success";
+				$data = array('success' => $success );
+
+				$this->load->library('session');
+				if ($this->session->has_userdata('username')) {
+					$this->load->helper('url');
+					header('location:'.base_url().'klien');
+
+				} else {
+					$this->load->helper('url');
+					header('location:'.base_url().'user/login');
+				}
+
+			} else {
+
+        		// user creation failed, this should never happen
+				$data->error = 'There was a problem creating new klien. Please try again.';
+
+				$this->load->library('session');
+				if ($this->session->has_userdata('username')) {
+					$this->load->helper('url');
+					$this->load->view('master/header');
+					$this->load->view('master/navigation');
+					$this->load->view('pages/klien/editKlien', $data);
+					$this->load->view('master/jsAdd');
+					$this->load->view('master/footer');
+				} else {
+					$this->load->helper('url');
+					header('location:'.base_url().'user/login');
+				}
+			}
+		}
 	}
-	public function delete()
+
+	public function delete($id_klien)
 	{
-		
+		if ($this->klien_model->delete_klien($id_klien)) {
+
+			$success = "delete success";
+			$data = array('success' => $success );
+				// user creation ok
+			$this->load->library('session');
+			if ($this->session->has_userdata('username')) {
+				$this->load->library('user_agent');
+				redirect($this->agent->referrer());
+			} else {
+				$this->load->helper('url');
+				header('location:'.base_url().'user/login');
+			}
+		}
 	}
 }
 ?>

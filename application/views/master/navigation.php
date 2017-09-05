@@ -93,6 +93,11 @@
                 <i class="fa fa-car" aria-hidden="true"></i> <span>Truk</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo base_url().'klien' ?>">
+                <i class="fa fa-user" aria-hidden="true"></i> <span>Klien</span>
+              </a>
+            </li>
 
           </ul>
         </section>

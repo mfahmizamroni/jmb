@@ -30,6 +30,7 @@
                         <th>Jenis Truk</th>
                         <th>Kapasitas</th>
                         <th>Ongkos</th>
+                        <th class="">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -38,10 +39,15 @@
                         $i++;
                         ?>
                         <tr>
+                          <td class="hidden"><?= $truks->id_truk; ?> </td>
                           <td><?= $truks->nopol; ?></td>
                           <td><?= $truks->jenis; ?></td>
                           <td><?= $truks->kapasitas; ?></td>
                           <td><?= $truks->ongkos; ?></td>
+                          <td>
+                            <a href="<?php echo base_url().'truk/edit/'.$truks->id_truk; ?>" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
+                            <a href="#" data-href="<?php echo base_url().'truk/delete/'.$truks->id_truk;?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> 
+                          </td>
                         </tr>
                         <?php
                       } ?>

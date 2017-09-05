@@ -3,7 +3,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Tambah Klien
+            Tambah Truk
             <small>Preview</small>
           </h1>
           <ol class="breadcrumb">
@@ -21,7 +21,7 @@
               <!-- general form elements -->
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Tambah Klien</h3>
+                  <h3 class="box-title">Tambah Truk</h3>
                 </div><!-- /.box-header -->
                 <?php if (validation_errors()) : ?>
                   <p><font color="red"><center><?= validation_errors() ?></center></font></p>
@@ -36,16 +36,21 @@
                 <?= form_open() ?>
                   <div class="box-body">
                     <div class="form-group">
-                      <label for="buku1">Nama Klien</label>
-                      <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama Klien">
+                      <input type="text" class="form-control hidden" name="nopol" value="<?= $truk->id_truk; ?>">
+                      <label for="buku1">Nomor Polisi</label>
+                      <input type="text" class="form-control" name="nopol" value="<?= $truk->nopol; ?>">
                     </div>
                     <div class="form-group">
-                      <label for="tahun">Alamat</label>
-                      <input type="text" class="form-control" name="alamat" placeholder="Masukkan Alamat Klien">
+                      <label for="buku1">Jenis Truk</label>
+                      <input type="text" class="form-control" name="jenis" value="<?= $truk->jenis; ?>">
                     </div>
                     <div class="form-group">
-                      <label for="tahun">No. Telp</label>
-                      <input type="text" class="form-control" name="no_telp" placeholder="Masukkan Nomor Telepon">
+                      <label for="tahun">Kapasitas</label>
+                      <input type="text" class="form-control" name="kapasitas" value="<?= $truk->kapasitas; ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="pengarang">Ongkos</label>
+                      <input type="text" class="form-control" name="ongkos" value="<?= $truk->ongkos; ?>">
                     </div>
                   </div><!-- /.box-body -->
 
@@ -58,4 +63,3 @@
           </div>   <!-- /.row -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      

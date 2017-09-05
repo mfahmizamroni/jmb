@@ -26,10 +26,10 @@ class Truk_model extends CI_Model {
 	 * @param mixed $id
 	 * @return object the user object
 	 */
-	public function get_truk($id) {
+	public function get_truk($id_truk) {
 		
 		$this->db->from('truk');
-		$this->db->where('id', $id);
+		$this->db->where('id_truk', $id_truk);
 		return $this->db->get()->row();
 		
 	}
@@ -54,7 +54,7 @@ class Truk_model extends CI_Model {
 		$data = array(
 			'nopol'   => $nopol,
 			'jenis'   => $jenis,
-			'kapasitas'      => $kapasitas,
+			'kapasitas'  => $kapasitas,
 			'ongkos'      => $ongkos,
 			'created_at' => date('Y-m-j H:i:s'),
 		);
@@ -73,15 +73,15 @@ class Truk_model extends CI_Model {
 			'updated_at' => date('Y-m-j H:i:s'),
 		);
 		
-		$this->db->where('id_truk', $id);
+		$this->db->where('id_truk', $id_truk);
 		$this->db->update('truk', $data);
-		return $id;
+		return $id_truk;
 		
 	}
 
-	public function delete_truk($id_truk) {
+	public function delete_truk($id) {
 		
-		$this->db->where('id_truk', $id_truk);
+		$this->db->where('id_truk', $id);
 		$this->db->delete('truk');
 		return $id;
 		
